@@ -47,7 +47,7 @@ vendor\bin\sail npm install
 vendor\bin\sail npm run dev
 ```
 
-Open the app at `http://localhost`.
+Open the app at `http://localhost:8000`.
 
 ## Demo Login
 
