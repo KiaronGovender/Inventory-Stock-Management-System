@@ -60,4 +60,18 @@ class StockMovement extends Model
     {
         return $query->when($productId, fn (Builder $query): Builder => $query->where('product_id', $productId));
     }
+
+    public function scopeSearch(Builder $query, ?string $search): Builder
+    {
+        return $query->when($search, function (Builder $query, string $search): void {
+            $query->where(function (Builder $query) use ($search): void {
+                $query->where('reason', 'like', "%{$search}%")
+                    ->orWhere('reference', 'like', "%{$search}%")
+                    ->orWhereHas('product', function (Builder $query) use ($search): void {
+                        $query->where('name', 'like', "%{$search}%")
+                            ->orWhere('sku', 'like', "%{$search}%");
+                    });
+            });
+        });
+    }
 }
